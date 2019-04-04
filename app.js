@@ -1217,6 +1217,42 @@ app.post('/api/excluirEmpre', function (req, res) {
 	});	
 });
 
+app.post('/api/desativarEmpre', function (req, res) {
+	pool.getConnection(function(err, connection) {
+		var string = 'update empresa set status_ativo =0  where id = '+req.body.id_empresa;
+		console.log(string);
+		connection.query(string, function(err, data) {
+			if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp('ok');		
+		});
+	});	
+});
+
+app.post('/api/ativarEmpre', function (req, res) {
+	pool.getConnection(function(err, connection) {
+		var string = 'update empresa set status_ativo =1  where id = '+req.body.id_empresa;
+		console.log(string);
+		connection.query(string, function(err, data) {
+			if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp('ok');		
+		});
+	});	
+});
+
 app.get('/api/getAllEmpresas', function(req, res) {
 	pool.getConnection(function(err, connection) {
 		var string = 'SELECT e.*,l.id_login, (select count(*) from clientes as c where c.empresa = e.id) as qtdIndicacoes , (select count(*) from presenca_x_empresa as pe where pe.id_empresa = e.id) as qtdPresenca, (select COALESCE(sum(pontos),0) from pontos as p, usuario as u, campanha as c where p.id_usuario =  u.id and u.id_login = l.id_login and p.id_campanha = (select id from campanha where data_fim>NOW() and deletado = 0)) as pontosEmpresa from empresa as e, usuario as u, login as l where e.deletado=0 and e.nome not like "admin" and e.id = u.id_empresa and u.id_login = l.id_login and l.deletado = 0'
@@ -3623,10 +3659,10 @@ premioEspecificador.start();
 
 
 //configuracao para aws
-var port = 9002;
-app.listen(port);
+//var port = 9002;
+//app.listen(port);
 
 //configuracao para o heroku
-//app.listen(process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000)
 
 console.log('Listening');
