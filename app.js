@@ -1682,7 +1682,7 @@ app.post('/api/getUserById', function (req, res) {
 //clientes
 app.get('/api/getAllClientes', function(req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'SELECT c.*, l.email, l.id_tipo_login, l.id_login, e.nome as nomeEmpresa FROM clientes as c, login as l, empresa as e where l.id_login = c.id_login and c.deletado = 0 and e.id = c.empresa order by c.data_criacao desc';
+		var string = 'SELECT c.*, l.email, l.id_tipo_login, l.id_login, e.nome as nomeEmpresa FROM clientes as c, login as l, empresa as e where l.id_login = c.id_login and c.deletado = 0 and e.id = c.empresa order by c.data_criacao asc';
 		console.log(string);
 		connection.query(string, function(err, data) {
 		  if (err){
