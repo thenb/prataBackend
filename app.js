@@ -2675,6 +2675,24 @@ app.get('/api/getAllPremiosCampanhaAtiva', function(req, res) {
 	});		
 });
 
+app.post('/api/getAllPremiosByCampanhaId', function(req, res) {
+	pool.getConnection(function(err, connection) {		
+		var string = 'select * from premio where id_campanha ='+req.body.id;
+		console.log(string);
+		connection.query(string, function(err, data) {
+			if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp(data);
+		});
+	});	
+});
+
 app.post('/api/savePremio', function (req, res) {	 
 	pool.getConnection(function(err, connection) {
 		var string = 'insert into premio(id_campanha, nome, descricao, pontos, data_criacao) values((select id from campanha where data_fim>NOW() and deletado = 0),"'+req.body.premio.nome+'","'+req.body.premio.descricao+'",'+req.body.premio.pontos+',NOW())';
