@@ -1310,6 +1310,24 @@ app.post('/api/empresaUpdateNome', function (req, res) {
 	});	
 });
 
+app.post('/api/empresaUpdateEmail', function (req, res) {
+	pool.getConnection(function(err, connection) {
+		var string = 'update empresa set email ="'+req.body.email+'" where id = '+req.body.id_empresa;
+		console.log(string);
+		connection.query(string, function(err, data) {
+			if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp('ok');		
+		});
+	});	
+});
+
 app.post('/api/empresaUpdateSegmento', function (req, res) {
 	pool.getConnection(function(err, connection) {
 		var string = 'update empresa set segmento ="'+req.body.segmento+'" where id = '+req.body.id_empresa;
@@ -1806,7 +1824,6 @@ app.post('/api/saveCliente', function (req, res) {
 				 if(typeof req.body.cliente.sobrenome == 'undefined'){
 					req.body.cliente.sobrenome='';
 				 }
-				 console.log("Chega aqui?");
 				 
 				 var string = 'INSERT INTO login (id_tipo_login, email, senha, data_criacao, id_usuario_edicao, bloqueado)VALUES (4, "'+ req.body.cliente.email+'", "'+ req.body.cliente.senha+'", NOW(), 1, 0)'
 				 console.log(string);
