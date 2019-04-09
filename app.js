@@ -1294,7 +1294,7 @@ app.post('/api/getInfoEmpresa', function(req, res) {
 
 app.post('/api/empresaUpdateNome', function (req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'update empresa set nome ="'+req.body.nome+'" where id = '+req.body.id_empresa;
+		var string = 'update login set email ="'+req.body.email+'" where id_login = '+req.body.id_login;		
 		console.log(string);
 		connection.query(string, function(err, data) {
 			if (err){
