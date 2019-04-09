@@ -1806,6 +1806,7 @@ app.post('/api/saveCliente', function (req, res) {
 				 if(typeof req.body.cliente.sobrenome == 'undefined'){
 					req.body.cliente.sobrenome='';
 				 }
+				 console.log("Chega aqui?");
 				 
 				 var string = 'INSERT INTO login (id_tipo_login, email, senha, data_criacao, id_usuario_edicao, bloqueado)VALUES (4, "'+ req.body.cliente.email+'", "'+ req.body.cliente.senha+'", NOW(), 1, 0)'
 				 console.log(string);
