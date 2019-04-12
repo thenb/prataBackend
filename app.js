@@ -1697,7 +1697,6 @@ app.post('/api/getUserById', function (req, res) {
 });
 
 
-
 //clientes
 app.get('/api/getAllClientes', function(req, res) {
 	pool.getConnection(function(err, connection) {
