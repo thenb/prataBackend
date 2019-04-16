@@ -1603,40 +1603,9 @@ app.post('/api/campanhaUpdateDataFim', function (req, res) {
 				connection.release();
 				return res.jsonp(error);	
 			}
-		});
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		});		
 	});	
 });
-
-app.post('/api/saveCampanha', function (req, res) {	 	
-	pool.getConnection(function(err, connection) {
-		
-	});		
-});
-
-
 
 
 app.post('/api/campanhaUpdateRegulamento', function (req, res) {
