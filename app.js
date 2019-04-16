@@ -1572,7 +1572,7 @@ app.post('/api/campanhaUpdateDataInicio', function (req, res) {
 
 app.post('/api/campanhaUpdateDataFim', function (req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'select * from campanha where data_fim>NOW() and deletado = 0'
+		var string = 'select * from campanha where data_fim>NOW() and deletado = 0 and id != '+ req.body.id_campanha;
 		console.log(string);
 		connection.query(string, function(err, data) {
 			if (err){
