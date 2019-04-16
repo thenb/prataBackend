@@ -1572,7 +1572,7 @@ app.post('/api/campanhaUpdateDataInicio', function (req, res) {
 
 app.post('/api/campanhaUpdateDataFim', function (req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'update campanha set data_fim ="'+req.body.data_fim+'" where id = '+req.body.id_campanha;
+		var string = 'select * from campanha where data_fim>NOW() and deletado = 0'
 		console.log(string);
 		connection.query(string, function(err, data) {
 			if (err){
@@ -1581,12 +1581,63 @@ app.post('/api/campanhaUpdateDataFim', function (req, res) {
 				error.msg = err;
 				connection.release();
 				return res.jsonp(error);
+			}	
+			if(data.length==0){
+				var string1 = 'update campanha set data_fim ="'+req.body.data_fim+'" where id = '+req.body.id_campanha;
+				console.log(string1);
+				connection.query(string1, function(err, data) {
+					if (err){
+						var error = {};
+						error.type = 1;
+						error.msg = err;
+						connection.release();
+						return res.jsonp(error);
+					}
+					connection.release();
+					return res.jsonp('ok');		
+				});
+			}else{
+				var error = {};
+				error.type = 1;
+				error.msg = 'Já existe uma campanha ativa no sistema.';
+				connection.release();
+				return res.jsonp(error);	
 			}
-			connection.release();
-			return res.jsonp('ok');		
 		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	});	
 });
+
+app.post('/api/saveCampanha', function (req, res) {	 	
+	pool.getConnection(function(err, connection) {
+		
+	});		
+});
+
+
+
 
 app.post('/api/campanhaUpdateRegulamento', function (req, res) {
 	pool.getConnection(function(err, connection) {
