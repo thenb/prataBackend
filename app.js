@@ -40,7 +40,7 @@ app.use(function(err, req, res, next) {
 //Portal
 app.get('/getAllEspecPortal', function(req, res) {	
 	pool.getConnection(function(err, connection) {
-		var string = 'select l.email,l.url_perfil ,e.id ,e.nome, e.empresa, e.data_nascimento, e.cpf, e.rg,e.telefone, e.celular, e.profissao, e.endereco, e.bairro, e.cep, e.cidade, e.cep from especificador as e, login as l where e.deletado = 0 and l.id_login = e.id_login order by nome asc';
+		var string = 'select l.email,l.url_perfil ,e.id ,e.nome, e.empresa, e.data_nascimento, e.cpf, e.rg,e.telefone, e.celular, e.profissao, e.endereco, e.bairro, e.cep, e.cidade, e.cep from especificador as e, login as l where e.deletado = 0 and l.id_login = e.id_login and e.exibir_portal = 1 order by nome asc';
 		console.log(string);
 		connection.query(string, function(err, data) {
 			if (err){
@@ -680,6 +680,45 @@ app.post('/api/saveEspec', function (req, res) {
 		}); 
 	});			 
 });
+
+
+app.post('/api/desativarespec', function (req, res) {
+	pool.getConnection(function(err, connection) {
+		var string = 'update especificador set exibir_portal =0  where id = '+req.body.id_espec;
+		console.log(string);
+		connection.query(string, function(err, data) {
+			if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp('ok');		
+		});
+	});	
+});
+
+app.post('/api/ativarespec', function (req, res) {
+	pool.getConnection(function(err, connection) {
+		var string = 'update especificador set exibir_portal =1  where id = '+req.body.id_espec;
+		console.log(string);
+		connection.query(string, function(err, data) {
+			if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp('ok');		
+		});
+	});	
+});
+
+
 
 app.post('/api/especificadorUpdateNome', function (req, res) {
 	pool.getConnection(function(err, connection) {
