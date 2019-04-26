@@ -3137,7 +3137,9 @@ app.post('/aceite', function (req, res) {
 app.post('/api/pushNovaPontuacao', function (req, res) {
 	pool.getConnection(function(err, connection) {
 		console.log(req.body);
-		var msg = 'Olá '+req.body.nome+', você recebeu '+req.body.pontuacao.valor+' novos pontos. Descrição: '+req.body.pontuacao.descricao ;
+		var pontos_recebindos = req.body.pontuacao.valor;
+		var pontos_convertidos = pontos_recebindos/100;
+		var msg = 'Olá '+req.body.nome+', você recebeu '+pontos_convertidos+' novos pontos. Descrição: '+req.body.pontuacao.descricao ;
 		var titulo = 'Nova Pontuação!';
 		
 		var string = 'INSERT INTO notificacao (data, id_login, msg, titulo, lida, tipo) VALUES (NOW(),"'+req.body.id_login+'","'+msg+'","'+titulo+'" , 0, 1);'
