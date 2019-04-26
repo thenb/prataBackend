@@ -333,6 +333,7 @@ app.post('/esqueciSenha', function (req, res) {
 							var error = {};
 							error.type = 1;
 							error.msg = err;
+							console.log(err)
 							connection.release();
 							return res.jsonp(error);
 						}
