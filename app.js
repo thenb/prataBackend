@@ -3757,10 +3757,10 @@ var premioEspecificador = new CronJob({
 
 
 //configuracao para aws
-var port = 9002;
-app.listen(port);
+//var port = 9002;
+//app.listen(port);
 
 //configuracao para o heroku
-//app.listen(process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000)
 
 console.log('Listening');
