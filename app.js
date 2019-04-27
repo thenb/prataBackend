@@ -1295,7 +1295,15 @@ app.post('/api/ativarEmpre', function (req, res) {
 
 app.get('/api/getAllEmpresas', function(req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'SELECT e.*,l.id_login, (select count(*) from clientes as c where c.empresa = e.id) as qtdIndicacoes , (select count(*) from presenca_x_empresa as pe where pe.id_empresa = e.id) as qtdPresenca, (select COALESCE(sum(pontos),0) from pontos as p, usuario as u, campanha as c where p.id_usuario =  u.id and u.id_login = l.id_login and p.id_campanha = (select id from campanha where data_fim>NOW() and deletado = 0)) as pontosEmpresa from empresa as e, usuario as u, login as l where e.deletado=0 and e.nome not like "admin" and e.id = u.id_empresa and u.id_login = l.id_login and l.deletado = 0'
+		//var string = 'SELECT e.*,l.id_login, (select count(*) from clientes as c where c.empresa = e.id) as qtdIndicacoes , (select count(*) from presenca_x_empresa as pe where pe.id_empresa = e.id) as qtdPresenca, (select COALESCE(sum(pontos),0) from pontos as p, usuario as u, campanha as c where p.id_usuario =  u.id and u.id_login = l.id_login and p.id_campanha = (select id from campanha where data_fim>NOW() and deletado = 0)) as pontosEmpresa from empresa as e, usuario as u, login as l where e.deletado=0 and e.nome not like "admin" and e.id = u.id_empresa and u.id_login = l.id_login and l.deletado = 0'
+		
+		var string 'SELECT e.*, l.id_login, (select count(*) from clientes as c where c.empresa = e.id) as qtdIndicacoes , (select count(*) from presenca_x_empresa as pe where pe.id_empresa = e.id) as qtdPresenca, (select COALESCE(sum(pontos),0) from pontos as p where p.id_campanha = (select id from campanha where data_fim>NOW() and deletado = 0)  and p.id_usuario = u.id) as pontosEmpresa from empresa as e, usuario as u, login as l where e.deletado=0 and e.nome not like "admin" and e.id = u.id_empresa and u.id_login = l.id_login and l.deletado = 0'
+		 
+
+
+		
+		
+		
 		console.log(string)
 		connection.query(string, function(err, data) {	
 		  if (err){
