@@ -2737,6 +2737,7 @@ app.post('/api/getAllVisitasLoginId', function(req, res) {
 app.get('/api/getAllPremiosCampanhaAtiva', function(req, res) {
 	pool.getConnection(function(err, connection) {
 		var string = 'select * from premio where id_campanha in (select id from campanha where data_fim>NOW() and deletado = 0) and deletado = 0 order by pontos desc'
+		
 		console.log(string);
 		connection.query(string, function(err, data) {
 			if (err){
