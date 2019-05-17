@@ -2755,7 +2755,7 @@ app.get('/api/getAllPremiosCampanhaAtiva', function(req, res) {
 
 app.post('/api/getAllPremiosByCampanhaId', function(req, res) {
 	pool.getConnection(function(err, connection) {		
-		var string = 'select * from premio where id_campanha ='+req.body.id;
+		var string = 'select * from premio where id_campanha ='+req.body.id+' order by pontos desc';
 		console.log(string);
 		connection.query(string, function(err, data) {
 			if (err){
