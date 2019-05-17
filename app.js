@@ -392,7 +392,7 @@ app.post('/pushNovaNoticia', function (req, res) {
 								connection.release();
 								return res.jsonp(error);
 							}
-							if(disp.length>0){
+							/*if(disp.length>0){
 								disp.map(function(token) {			  
 									console.log(token.token);
 									AWS.config.loadFromPath('./configSNS.json');
@@ -428,7 +428,7 @@ app.post('/pushNovaNoticia', function (req, res) {
 									  });
 									});			
 								});	
-							}							
+							}*/							
 						});	
 					});
 				});
@@ -3162,6 +3162,7 @@ app.post('/api/pushNovaPontuacao', function (req, res) {
 					connection.release();
 					return res.jsonp(error);
 				}
+				/*
 				if(disp.length>0){
 					disp.map(function(token) {			  
 						console.log(token.token);
@@ -3200,6 +3201,7 @@ app.post('/api/pushNovaPontuacao', function (req, res) {
 						});			
 					});	
 				}
+				*/
 				connection.release();
 				return res.jsonp('Push feito');
 			});		
@@ -3233,7 +3235,7 @@ app.post('/api/pushNovaVisita', function (req, res) {
 					connection.release();
 					return res.jsonp(error);
 				}
-				if(disp.length>0){
+				/*if(disp.length>0){
 					disp.map(function(token) {			  
 						console.log(token.token);
 						AWS.config.loadFromPath('./configSNS.json');
@@ -3270,7 +3272,7 @@ app.post('/api/pushNovaVisita', function (req, res) {
 						  });
 						});			
 					});	
-				}
+				}*/
 				connection.release();
 				return res.jsonp('Push feito');
 			});								
