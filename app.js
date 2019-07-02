@@ -413,7 +413,6 @@ app.post('/pushNovaNoticia', function (req, res) {
 									  payload.APNS = JSON.stringify(payload.APNS);
 									  // then have to stringify the entire message payload
 									  payload = JSON.stringify(payload);
-
 									  console.log('sending push');
 									  sns.publish({
 										Message: payload,
@@ -2553,29 +2552,6 @@ app.get('/api/getCampanhaAtiva', function(req, res) {
 	});		
 });
 
-app.post('/api/getPontosFiltrado', function(req, res) {
-	pool.getConnection(function(err, connection) {
-		var string = 'select p.pontos, p.observacao, p.data_criacao, e.nome as empresaNome, c.nome as campanhaNome, esp.nome as especificadorNome from pontos as p, usuario as u, empresa as e, campanha as c, especificador as esp where p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = c.id and p.id_especificador = esp.id;';
-		var promises = [];			
-		console.log(string);
-		connection.query(string, function(err, data) {
-		  if (err){
-				var error = {};
-				error.type = 1;
-				error.msg = err;
-				connection.release();
-				return res.jsonp(error);
-			}
-			connection.release();
-			return res.jsonp(data);
-		});
-	});		
-});
-
-
-
-
-
 //presenca
 
 function insertPresentes(presente, id_presenca, connection) {			
@@ -3199,9 +3175,7 @@ app.post('/api/pushNovaPontuacao', function (req, res) {
 						  if (err) {
 							return res.jsonp(err.stack);
 						  }
-
 						  var endpointArn = data.EndpointArn;
-
 						  var payload = {
 							"GCM": "{ \"notification\": { \"text\": \"Nova Pontuação!!!\", \"click_action\": \"FCM_PLUGIN_ACTIVITY\" } }"
 							}
@@ -3210,7 +3184,6 @@ app.post('/api/pushNovaPontuacao', function (req, res) {
 						  payload.APNS = JSON.stringify(payload.APNS);
 						  // then have to stringify the entire message payload
 						  payload = JSON.stringify(payload);
-
 						  console.log('sending push');
 						  sns.publish({
 							Message: payload,
@@ -3271,9 +3244,7 @@ app.post('/api/pushNovaVisita', function (req, res) {
 						  if (err) {
 							return res.jsonp(err.stack);
 						  }
-
 						  var endpointArn = data.EndpointArn;
-
 						  var payload = {
 							"GCM": "{ \"notification\": { \"text\": \"Nova Visita Cadastrada!!!\", \"click_action\": \"FCM_PLUGIN_ACTIVITY\" } }"
 							}
@@ -3282,7 +3253,6 @@ app.post('/api/pushNovaVisita', function (req, res) {
 						  payload.APNS = JSON.stringify(payload.APNS);
 						  // then have to stringify the entire message payload
 						  payload = JSON.stringify(payload);
-
 						  console.log('sending push');
 						  sns.publish({
 							Message: payload,
@@ -3344,9 +3314,7 @@ function insertPushMudancaObra(nome_cliente, nome_empresa, id_login ,connection)
 						  if (err) {
 							return res.jsonp(err.stack);
 						  }
-
 						  var endpointArn = data.EndpointArn;
-
 						  var payload = {
 							"GCM": "{ \"notification\": { \"text\": \"Alteração de Status de Obra!!!\", \"click_action\": \"FCM_PLUGIN_ACTIVITY\" } }"
 							}
@@ -3355,7 +3323,6 @@ function insertPushMudancaObra(nome_cliente, nome_empresa, id_login ,connection)
 						  payload.APNS = JSON.stringify(payload.APNS);
 						  // then have to stringify the entire message payload
 						  payload = JSON.stringify(payload);
-
 						  console.log('sending push');
 						  sns.publish({
 							Message: payload,
@@ -3783,10 +3750,10 @@ var premioEspecificador = new CronJob({
 
 
 //configuracao para aws
-//var port = 9002;
-//app.listen(port);
+var port = 9002;
+app.listen(port);
 
 //configuracao para o heroku
-app.listen(process.env.PORT || 5000)
+//app.listen(process.env.PORT || 5000)
 
 console.log('Listening');
