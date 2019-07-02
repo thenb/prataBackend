@@ -2555,7 +2555,7 @@ app.get('/api/getCampanhaAtiva', function(req, res) {
 
 app.post('/api/getPontosFiltrado', function(req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'select p.pontos, p.observacao, p.data_criacao, e.nome as empresaNome, c.nome as campanhaNome, esp.nome as especificadorNome from pontos as p, usuario as u, empresa as e, campanha as c, especificador as esp where p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = c.id and p.id_especificador = esp.id';
+		var string = 'select p.pontos, p.observacao, p.data_criacao, e.nome as empresaNome, c.nome as campanhaNome, esp.nome as especificadorNome from pontos as p, usuario as u, empresa as e, campanha as c, especificador as esp where p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = c.id and p.id_especificador = esp.id;';
 		console.log(string);
 		connection.query(string, function(err, data) {
 		  if (err){
