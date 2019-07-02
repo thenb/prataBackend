@@ -3138,8 +3138,65 @@ app.post('/aceite', function (req, res) {
 //relatorios
 app.post('/api/getPontosFiltrado', function(req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'select p.pontos, p.observacao, p.data_criacao, e.nome as empresaNome, c.nome as campanhaNome, esp.nome as especificadorNome from pontos as p, usuario as u, empresa as e, campanha as c, especificador as esp where p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = c.id and p.id_especificador = esp.id;';
-		var promises = [];			
+		var string = 'select p.pontos, p.observacao, p.data_criacao, e.nome as empresaNome, c.nome as campanhaNome, esp.nome as especificadorNome from pontos as p, usuario as u, empresa as e, campanha as c, especificador as esp where p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = c.id and p.id_especificador = esp.id';
+			
+		var filtro = req.body.stringFilter;			
+		
+		if(filtro != null){
+			console.log(string + filtro);
+			string = string + filtro;
+		}				
+		
+		connection.query(string, function(err, data) {
+		  if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp(data);
+		});
+	});		
+});
+
+app.post('/api/getPontosFiltrado', function(req, res) {
+	pool.getConnection(function(err, connection) {
+		var string = 'select p.pontos, p.observacao, p.data_criacao, e.nome as empresaNome, c.nome as campanhaNome, esp.nome as especificadorNome from pontos as p, usuario as u, empresa as e, campanha as c, especificador as esp where p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = c.id and p.id_especificador = esp.id';
+			
+		var filtro = req.body.stringFilter;			
+		
+		if(filtro != null){
+			console.log(string + filtro);
+			string = string + filtro;
+		}				
+		
+		connection.query(string, function(err, data) {
+		  if (err){
+				var error = {};
+				error.type = 1;
+				error.msg = err;
+				connection.release();
+				return res.jsonp(error);
+			}
+			connection.release();
+			return res.jsonp(data);
+		});
+	});		
+});
+
+
+app.post('/api/rankingEspecificadores', function(req, res) {
+	pool.getConnection(function(err, connection) {
+
+		var string;
+		var id_campanha = req.body.id_campanha;
+		if(id_campanha != null){
+			string = 'select e.nome, e.empresa, e.profissao, e.cidade, e.uf , (select COALESCE(sum(pontos),0) from pontos where id_especificador = e.id and id_campanha = '+req.body.id_campanha +') as pontos from especificador as e where e.bloqueado = 0 and e.deletado = 0 order by pontos desc';
+		}else{
+			string = 'select e.nome, e.empresa, e.profissao, e.cidade, e.uf , (select COALESCE(sum(pontos),0) from pontos where id_especificador = e.id) as pontos from especificador as e where e.bloqueado = 0 and e.deletado = 0 order by pontos desc';
+		}
 		console.log(string);
 		connection.query(string, function(err, data) {
 		  if (err){
@@ -3154,6 +3211,9 @@ app.post('/api/getPontosFiltrado', function(req, res) {
 		});
 	});		
 });
+
+
+
 
 
 
