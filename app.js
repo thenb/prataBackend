@@ -3193,9 +3193,9 @@ app.post('/api/rankingEspecificadores', function(req, res) {
 		var string;
 		var id_campanha = req.body.id_campanha;
 		if(id_campanha != null){
-			string = 'select e.nome, (select email from login where id_login = e.id) as email_esp , e.telefone, e.cidade, e.uf , (select COALESCE(sum(pontos),0) from pontos where id_especificador = e.id and id_campanha = '+req.body.id_campanha +') as pontos from especificador as e where e.bloqueado = 0 and e.deletado = 0 order by pontos desc';
+			string = 'select e.nome, (select email from login where id_login = e.id_login) as email_esp , e.telefone, e.cidade, e.uf , (select COALESCE(sum(pontos),0) from pontos where id_especificador = e.id and id_campanha = '+req.body.id_campanha +') as pontos from especificador as e where e.bloqueado = 0 and e.deletado = 0 order by pontos desc';
 		}else{
-			string = 'select e.nome, (select email from login where id_login = e.id) as email_esp, e.telefone, e.cidade, e.uf , (select COALESCE(sum(pontos),0) from pontos where id_especificador = e.id) as pontos from especificador as e where e.bloqueado = 0 and e.deletado = 0 order by pontos desc';
+			string = 'select e.nome, (select email from login where id_login = e.id_login) as email_esp, e.telefone, e.cidade, e.uf , (select COALESCE(sum(pontos),0) from pontos where id_especificador = e.id) as pontos from especificador as e where e.bloqueado = 0 and e.deletado = 0 order by pontos desc';
 		}
 		console.log(string);
 		connection.query(string, function(err, data) {
