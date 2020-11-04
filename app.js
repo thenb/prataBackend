@@ -574,7 +574,7 @@ app.post('/api/getAllPointsCampanhaAtiva', function(req, res) {
 
 app.post('/api/getAllPointsByEspecId', function(req, res) {
 	pool.getConnection(function(err, connection) {
-		var string = 'SELECT p.pontos, p.data_criacao, p.observacao as descricao, e.nome  FROM pontos as p, usuario as u, empresa as e where id_especificador ='+req.body.espec_id+' and p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = (SELECT id from campanha where data_fim>NOW() and deletado = 0) order by data_criacao desc'
+		var string = 'SELECT p.pontos, p.data_criacao, p.observacao as descricao, e.nome, p.id  FROM pontos as p, usuario as u, empresa as e where id_especificador ='+req.body.espec_id+' and p.id_usuario = u.id and e.id = u.id_empresa and p.id_campanha = (SELECT id from campanha where data_fim>NOW() and deletado = 0) order by data_criacao desc'
 		console.log(string);
 		connection.query(string , function(err, data) {
 		if (err){
