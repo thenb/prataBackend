@@ -4,7 +4,7 @@
   "description": "server for the angular application",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.94.0",
+    "aws-sdk": "^2.814.0",
     "body-parser": "^1.17.1",
     "connect-busboy": "0.0.2",
     "cors": "^2.8.3",
